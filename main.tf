@@ -61,7 +61,7 @@ data "aws_network_acls" "default" {
 # Remove all rules from the default network ACL. That means all subnets, by default,
 # `DENY` for all incoming and outgoing traffic
 resource "aws_default_network_acl" "default" {
-  default_network_acl_id = data.aws_network_acls.default.ids[0]
+  default_network_acl_id = module.vpc.default_vpc_default_network_acl_id
 
   tags = merge(var.tags, map("Name", "${var.vpc_name} Default ACLs"))
 
