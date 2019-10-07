@@ -50,12 +50,13 @@ resource "aws_default_security_group" "default" {
 
 # For some reason, module.vpc.default_vpc_default_network_acl_id is empty
 data "aws_network_acls" "default" {
-  vpc_id = "${module.vpc.vpc_id}"
+  vpc_id = module.vpc.vpc_id
 
   filter {
     name   = "default"
     values = ["true"]
   }
+}
 
 # Remove all rules from the default network ACL. That means all subnets, by default,
 # `DENY` for all incoming and outgoing traffic
