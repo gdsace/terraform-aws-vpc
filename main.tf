@@ -26,9 +26,9 @@ module "vpc" {
   intra_subnets = var.intra_subnets
 
   # One gateway per AZ: https://github.com/terraform-aws-modules/terraform-aws-vpc#nat-gateway-scenarios
-  enable_nat_gateway     = var.eip_count > 0 ? "true" : "false"
+  enable_nat_gateway     = var.eip_count > 0 ? true : false
   single_nat_gateway     = false
-  one_nat_gateway_per_az = var.eip_count > 0 ? "true" : "false"
+  one_nat_gateway_per_az = var.eip_count > 0 ? true : false
 
   reuse_nat_ips       = true
   external_nat_ip_ids = aws_eip.nat.*.id
@@ -36,8 +36,8 @@ module "vpc" {
   enable_vpn_gateway   = false
   enable_dns_hostnames = true
 
-  enable_s3_endpoint       = var.eip_count > 0 ? var.enable_s3_endpoint: "false"
-  enable_dynamodb_endpoint = var.eip_count > 0 ? var.enable_dynamodb_endpoint: "false"
+  enable_s3_endpoint       = var.eip_count > 0 ? var.enable_s3_endpoint : false
+  enable_dynamodb_endpoint = var.eip_count > 0 ? var.enable_dynamodb_endpoint : false
 
   tags = var.tags
 }
@@ -88,7 +88,7 @@ resource "aws_network_acl" "public" {
 resource "aws_network_acl_rule" "public_outgoing" {
   network_acl_id = aws_network_acl.public.id
 
-  rule_number = "100"
+  rule_number = 100
   egress      = true
   protocol    = "all"
   rule_action = "allow"
@@ -109,7 +109,7 @@ resource "aws_network_acl_rule" "public_incoming_internal" {
 resource "aws_network_acl_rule" "public_incoming_http" {
   network_acl_id = aws_network_acl.public.id
 
-  rule_number = "200"
+  rule_number = 200
   egress      = false
   protocol    = "tcp"
   rule_action = "allow"
@@ -121,7 +121,7 @@ resource "aws_network_acl_rule" "public_incoming_http" {
 resource "aws_network_acl_rule" "public_incoming_https" {
   network_acl_id = aws_network_acl.public.id
 
-  rule_number = "201"
+  rule_number = 201
   egress      = false
   protocol    = "tcp"
   rule_action = "allow"
@@ -133,7 +133,7 @@ resource "aws_network_acl_rule" "public_incoming_https" {
 resource "aws_network_acl_rule" "public_incoming_ephemeral" {
   network_acl_id = aws_network_acl.public.id
 
-  rule_number = "202"
+  rule_number = 202
   egress      = false
   protocol    = "tcp"
   rule_action = "allow"
@@ -155,7 +155,7 @@ resource "aws_network_acl" "private" {
 resource "aws_network_acl_rule" "private_outgoing" {
   network_acl_id = aws_network_acl.private.id
 
-  rule_number = "100"
+  rule_number = 100
   egress      = true
   protocol    = "all"
   rule_action = "allow"
@@ -176,7 +176,7 @@ resource "aws_network_acl_rule" "private_incoming_internal" {
 resource "aws_network_acl_rule" "private_incoming_ephemeral" {
   network_acl_id = aws_network_acl.private.id
 
-  rule_number = "101"
+  rule_number = 101
   egress      = false
   protocol    = "tcp"
   rule_action = "allow"
