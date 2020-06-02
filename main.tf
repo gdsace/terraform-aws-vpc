@@ -77,6 +77,7 @@ resource "aws_network_acl" "public" {
 }
 
 resource "aws_network_acl_rule" "public_outgoing" {
+  count          = length(module.vpc.public_subnets) > 0 ? 1 : 0
   network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 100
@@ -87,7 +88,7 @@ resource "aws_network_acl_rule" "public_outgoing" {
 }
 
 resource "aws_network_acl_rule" "public_incoming_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.public_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 100 + count.index
@@ -98,6 +99,7 @@ resource "aws_network_acl_rule" "public_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "public_incoming_http" {
+  count          = length(module.vpc.public_subnets) > 0 ? 1 : 0
   network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 200
@@ -110,6 +112,7 @@ resource "aws_network_acl_rule" "public_incoming_http" {
 }
 
 resource "aws_network_acl_rule" "public_incoming_https" {
+  count          = length(module.vpc.public_subnets) > 0 ? 1 : 0
   network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 201
@@ -122,6 +125,7 @@ resource "aws_network_acl_rule" "public_incoming_https" {
 }
 
 resource "aws_network_acl_rule" "public_incoming_ephemeral" {
+  count          = length(module.vpc.public_subnets) > 0 ? 1 : 0
   network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 202
@@ -145,6 +149,7 @@ resource "aws_network_acl" "private" {
 }
 
 resource "aws_network_acl_rule" "private_outgoing" {
+  count          = length(module.vpc.private_subnets) > 0 ? 1 : 0
   network_acl_id = aws_network_acl.private.0.id
 
   rule_number = 100
@@ -155,7 +160,7 @@ resource "aws_network_acl_rule" "private_outgoing" {
 }
 
 resource "aws_network_acl_rule" "private_incoming_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.private_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.private.0.id
 
   rule_number = 200 + count.index
@@ -166,6 +171,7 @@ resource "aws_network_acl_rule" "private_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "private_incoming_ephemeral" {
+  count          = length(module.vpc.private_subnets) > 0 ? 1 : 0
   network_acl_id = aws_network_acl.private.0.id
 
   rule_number = 101
@@ -189,7 +195,7 @@ resource "aws_network_acl" "database" {
 }
 
 resource "aws_network_acl_rule" "database_incoming_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.database_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.database.0.id
 
   rule_number = 200 + count.index
@@ -200,7 +206,7 @@ resource "aws_network_acl_rule" "database_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "database_outgoing_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.database_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.database.0.id
 
   rule_number = 200 + count.index
@@ -222,7 +228,7 @@ resource "aws_network_acl" "intra" {
 }
 
 resource "aws_network_acl_rule" "intra_incoming_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.intra_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.intra.0.id
 
   rule_number = 200 + count.index
@@ -233,7 +239,7 @@ resource "aws_network_acl_rule" "intra_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "intra_outgoing_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.intra_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.intra.0.id
 
   rule_number = 200 + count.index
@@ -255,7 +261,7 @@ resource "aws_network_acl" "elasticache" {
 }
 
 resource "aws_network_acl_rule" "elasticache_incoming_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.elasticache_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.elasticache.0.id
 
   rule_number = 200 + count.index
@@ -266,7 +272,7 @@ resource "aws_network_acl_rule" "elasticache_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "elasticache_outgoing_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.elasticache_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.elasticache.0.id
 
   rule_number = 200 + count.index
@@ -288,7 +294,7 @@ resource "aws_network_acl" "redshift" {
 }
 
 resource "aws_network_acl_rule" "redshift_incoming_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.redshift_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.redshift.0.id
 
   rule_number = 200 + count.index
@@ -299,7 +305,7 @@ resource "aws_network_acl_rule" "redshift_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "redshift_outgoing_internal" {
-  count          = length(local.internal_cidrs)
+  count          = length(module.vpc.redshift_subnets) > 0 ? length(local.internal_cidrs) : 0
   network_acl_id = aws_network_acl.redshift.0.id
 
   rule_number = 200 + count.index
