@@ -85,22 +85,22 @@ output "vpc_nat_eip_public" {
 
 output "public_acl_id" {
   description = "ACL ID of the public subnets"
-  value       = aws_network_acl.public.id
+  value       = aws_network_acl.public.0.id
 }
 
 output "private_acl_id" {
   description = "ACL ID of the private subnets"
-  value       = aws_network_acl.private.id
+  value       = aws_network_acl.private.0.id
 }
 
 output "database_acl_id" {
   description = "ACL ID of the database subnets"
-  value       = aws_network_acl.database.id
+  value       = aws_network_acl.database.0.id
 }
 
 output "intra_acl_id" {
   description = "ACL ID of the intra subnets"
-  value       = aws_network_acl.intra.id
+  value       = aws_network_acl.intra.0.id
 }
 
 output "redshift_route_table_ids" {
