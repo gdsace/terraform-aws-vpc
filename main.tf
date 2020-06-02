@@ -69,6 +69,7 @@ locals {
 # See https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
 ###########################################################
 resource "aws_network_acl" "public" {
+  count      = length(module.vpc.public_subnets) > 0 ? 1 : 0
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.public_subnets
 
@@ -133,9 +134,10 @@ resource "aws_network_acl_rule" "public_incoming_ephemeral" {
 }
 
 ###########################################################
-# ACL Rules for "private" submets
+# ACL Rules for "private" subnets
 ###########################################################
 resource "aws_network_acl" "private" {
+  count      = length(module.vpc.private_subnets) > 0 ? 1 : 0
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
@@ -176,9 +178,10 @@ resource "aws_network_acl_rule" "private_incoming_ephemeral" {
 }
 
 ###########################################################
-# ACL Rules for "database" submets
+# ACL Rules for "database" subnets
 ###########################################################
 resource "aws_network_acl" "database" {
+  count      = length(module.vpc.database_subnets) > 0 ? 1 : 0
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.database_subnets
 
@@ -208,9 +211,10 @@ resource "aws_network_acl_rule" "database_outgoing_internal" {
 }
 
 ###########################################################
-# ACL Rules for "intra" submets
+# ACL Rules for "intra" subnets
 ###########################################################
 resource "aws_network_acl" "intra" {
+  count      = length(module.vpc.intra_subnets) > 0 ? 1 : 0
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.intra_subnets
 
@@ -240,9 +244,10 @@ resource "aws_network_acl_rule" "intra_outgoing_internal" {
 }
 
 ###########################################################
-# ACL Rules for "elasticache" submets
+# ACL Rules for "elasticache" subnets
 ###########################################################
 resource "aws_network_acl" "elasticache" {
+  count      = length(module.vpc.elasticache_subnets) > 0 ? 1 : 0
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.elasticache_subnets
 
@@ -272,9 +277,10 @@ resource "aws_network_acl_rule" "elasticache_outgoing_internal" {
 }
 
 ###########################################################
-# ACL Rules for "redshift" submets
+# ACL Rules for "redshift" subnets
 ###########################################################
 resource "aws_network_acl" "redshift" {
+  count      = length(module.vpc.redshift_subnets) > 0 ? 1 : 0
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.redshift_subnets
 
