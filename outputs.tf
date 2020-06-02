@@ -95,12 +95,12 @@ output "private_acl_id" {
 
 output "database_acl_id" {
   description = "ACL ID of the database subnets"
-  value       = length(aws_network_acl.database) ? aws_network_acl.database.0.id : null
+  value       = length(aws_network_acl.database) > 0 ? aws_network_acl.database.0.id : null
 }
 
 output "intra_acl_id" {
   description = "ACL ID of the intra subnets"
-  value       = length(aws_network_acl.intra) ? aws_network_acl.intra.0.id : null
+  value       = length(aws_network_acl.intra) > 0 ? aws_network_acl.intra.0.id : null
 }
 
 output "redshift_route_table_ids" {
