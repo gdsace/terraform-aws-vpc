@@ -88,7 +88,7 @@ resource "aws_network_acl_rule" "public_outgoing" {
 
 resource "aws_network_acl_rule" "public_incoming_internal" {
   count          = length(local.internal_cidrs)
-  network_acl_id = aws_network_acl.public.id
+  network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 100 + count.index
   egress      = false
@@ -98,7 +98,7 @@ resource "aws_network_acl_rule" "public_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "public_incoming_http" {
-  network_acl_id = aws_network_acl.public.id
+  network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 200
   egress      = false
@@ -110,7 +110,7 @@ resource "aws_network_acl_rule" "public_incoming_http" {
 }
 
 resource "aws_network_acl_rule" "public_incoming_https" {
-  network_acl_id = aws_network_acl.public.id
+  network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 201
   egress      = false
@@ -122,7 +122,7 @@ resource "aws_network_acl_rule" "public_incoming_https" {
 }
 
 resource "aws_network_acl_rule" "public_incoming_ephemeral" {
-  network_acl_id = aws_network_acl.public.id
+  network_acl_id = aws_network_acl.public.0.id
 
   rule_number = 202
   egress      = false
@@ -156,7 +156,7 @@ resource "aws_network_acl_rule" "private_outgoing" {
 
 resource "aws_network_acl_rule" "private_incoming_internal" {
   count          = length(local.internal_cidrs)
-  network_acl_id = aws_network_acl.private.id
+  network_acl_id = aws_network_acl.private.0.id
 
   rule_number = 200 + count.index
   egress      = false
@@ -166,7 +166,7 @@ resource "aws_network_acl_rule" "private_incoming_internal" {
 }
 
 resource "aws_network_acl_rule" "private_incoming_ephemeral" {
-  network_acl_id = aws_network_acl.private.id
+  network_acl_id = aws_network_acl.private.0.id
 
   rule_number = 101
   egress      = false
@@ -201,7 +201,7 @@ resource "aws_network_acl_rule" "database_incoming_internal" {
 
 resource "aws_network_acl_rule" "database_outgoing_internal" {
   count          = length(local.internal_cidrs)
-  network_acl_id = aws_network_acl.database.id
+  network_acl_id = aws_network_acl.database.0.id
 
   rule_number = 200 + count.index
   egress      = true
@@ -234,7 +234,7 @@ resource "aws_network_acl_rule" "intra_incoming_internal" {
 
 resource "aws_network_acl_rule" "intra_outgoing_internal" {
   count          = length(local.internal_cidrs)
-  network_acl_id = aws_network_acl.intra.id
+  network_acl_id = aws_network_acl.intra.0.id
 
   rule_number = 200 + count.index
   egress      = true
@@ -267,7 +267,7 @@ resource "aws_network_acl_rule" "elasticache_incoming_internal" {
 
 resource "aws_network_acl_rule" "elasticache_outgoing_internal" {
   count          = length(local.internal_cidrs)
-  network_acl_id = aws_network_acl.elasticache.id
+  network_acl_id = aws_network_acl.elasticache.0.id
 
   rule_number = 200 + count.index
   egress      = true
@@ -300,7 +300,7 @@ resource "aws_network_acl_rule" "redshift_incoming_internal" {
 
 resource "aws_network_acl_rule" "redshift_outgoing_internal" {
   count          = length(local.internal_cidrs)
-  network_acl_id = aws_network_acl.redshift.id
+  network_acl_id = aws_network_acl.redshift.0.id
 
   rule_number = 200 + count.index
   egress      = true
