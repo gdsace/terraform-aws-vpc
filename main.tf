@@ -10,7 +10,7 @@ resource "aws_eip" "nat" {
 }
 
 module "vpc" {
-  source = "github.com/terraform-aws-modules/terraform-aws-vpc?ref=v2.17.0"
+  source = "github.com/terraform-aws-modules/terraform-aws-vpc?ref=v2.77.0"
 
   name = var.vpc_name
   cidr = var.vpc_cidr
